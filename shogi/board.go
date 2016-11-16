@@ -225,9 +225,11 @@ func (b *Board) ToString() string {
 		X: 0,
 		Y: 0,
 	}
-	for b.Pieces[i] != nil {
-		for b.Pieces[i] != nil {
-			s += b.Pieces[i].ToString() + ", "
+	for i.Y < b.Height {
+		for i.X < b.Width+2 {
+			if b.Pieces[i] != nil {
+				s += b.Pieces[i].ToString() + ", "
+			}
 			i.X++
 		}
 		i.X = 0

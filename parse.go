@@ -14,5 +14,12 @@ func main() {
 	if s.Scan() {
 		b = b.Load(s.Text())
 		fmt.Println(b.Log())
+		fmt.Println(b.ToString())
+		b = b.Put(&shogi.Movement{
+			From: *shogi.NewPosition("D1"),
+			To:   *shogi.NewPosition("C2"),
+		})
+		fmt.Println(b.Log())
+		fmt.Println(b.ToString())
 	}
 }

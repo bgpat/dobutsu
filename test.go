@@ -1,40 +1,31 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/bgpat/dobutsu/shogi"
 )
 
 var a [3]map[string]*shogi.Board
-var n map[string]*shogi.Board
-var hash map[string]int
+var n []*shogi.Board
 
 func main() {
 	a[1] = make(map[string]*shogi.Board)
 	a[2] = make(map[string]*shogi.Board)
-	n = make(map[string]*shogi.Board)
+	n = make([]*shogi.Board, 1)
 	s := "A1 g2, B1 l2, C1 e2, A2 --, B2 c2, C2 --, A3 --, B3 c1, C3 --, A4 e1, B4 l1, C4 g1, "
 	a[1][s] = shogi.NewBoard(s, 1)
-	n[s] = a[1][s]
-	m := 7
+	n[0] = a[1][s]
+	m := 8
 	for i := 0; i < m; i++ {
-		//log.Printf("%d: %d\n", i, len(a[1])+len(a[2]))
-		log.Printf("%d: %d, %d\n", i, len(n), len(hash))
+		log.Printf("%d: %d\n", i, len(n))
 		rep(i)
 	}
-	log.Printf("%d: %d, %d\n", m, len(n), len(hash))
-	//for _, b := range n {
-	//fmt.Println(b.ToString())
-	//}
-	for s, i := range hash {
-		fmt.Printf("%s: %d\n", s, i)
-	}
+	log.Printf("%d: %d\n", m, len(n))
 }
 
 func rep(i int) {
-	m := make(map[string]*shogi.Board, 0)
+	m := make([]*shogi.Board, 0)
 	for _, b := range n {
 		b.GenerateNext()
 		for _, c := range b.Next {
@@ -46,16 +37,9 @@ func rep(i int) {
 				d.Previous = append(d.Previous, b)
 			} else {
 				a[c.Player][s] = c
-				//m[s] = c
+				m = append(m, c)
 			}
-			m[s] = c
-			//m = append(m, c)
 		}
 	}
 	n = m
-	hash = make(map[string]int)
-	for _, b := range n {
-		s := b.ToString()
-		hash[s]++
-	}
 }
