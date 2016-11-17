@@ -110,10 +110,9 @@ func (b *Board) Move(m *Movement) *Board {
 	if c.Pieces[m.To].Player != 0 {
 		c.Catch(c.Pieces[m.To], b.Player)
 	}
-	c.Pieces[m.To] = &Piece{
-		Position: m.To,
-		Kind:     c.Pieces[m.From].Kind,
-		Player:   b.Player,
+	c.Pieces[m.To] = c.Pieces[m.From].Move(m)
+	if c.Pieces[m.To].Kind == "c" && m.To.IsEdge(b) {
+		c.Pieces[m.To].Kind = "h"
 	}
 	c.Pieces[m.From] = &Piece{Position: m.From}
 	return c

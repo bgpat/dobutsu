@@ -37,6 +37,14 @@ func (p *Position) Invert() Position {
 	}
 }
 
+func (p *Position) IsEdge(b *Board) bool {
+	edge := 0
+	if b.Player == 2 {
+		edge = b.Height - 1
+	}
+	return p.Y == edge
+}
+
 func (p *Position) ToString() string {
 	return string(byte(p.X+'A')) + strconv.Itoa(p.Y+1)
 }

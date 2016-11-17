@@ -63,6 +63,14 @@ func (p *Piece) NextMovements(b *Board) []Movement {
 	return r
 }
 
+func (p *Piece) Move(m *Movement) *Piece {
+	return &Piece{
+		Position: m.To,
+		Kind:     p.Kind,
+		Player:   p.Player,
+	}
+}
+
 func (p *Piece) ToString() string {
 	if p.Player == 0 {
 		return p.Position.ToString() + " --"
