@@ -89,6 +89,7 @@ func (c *Client) Step() error {
 	case "initialize":
 		res := c.Command("initboard")
 		c.Board = shogi.NewBoard(res, 1)
+		c.Board.Count = c.Count
 		c.Phase = "load"
 	case "load":
 		res := c.Command("board")
