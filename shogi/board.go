@@ -5,12 +5,12 @@ import (
 )
 
 type Board struct {
-	Previous []*Board
-	Next     map[Movement]*Board
-	Player   int
-	Pieces   map[Position]*Piece
-	Width    int
-	Height   int
+	//Previous []*Board
+	Next   map[Movement]*Board
+	Player int
+	Pieces map[Position]*Piece
+	Width  int
+	Height int
 }
 
 func NewBoard(s string, player int) *Board {
@@ -57,23 +57,19 @@ func (b *Board) Clone() *Board {
 		pieces[p] = q
 	}
 	return &Board{
-		Previous: make([]*Board, 0),
-		Next:     make(map[Movement]*Board),
-		Player:   b.Player,
-		Pieces:   pieces,
-		Width:    b.Width,
-		Height:   b.Height,
+		//Previous: make([]*Board, 0),
+		Next:   make(map[Movement]*Board),
+		Player: b.Player,
+		Pieces: pieces,
+		Width:  b.Width,
+		Height: b.Height,
 	}
 }
 
 func (b *Board) NextTurn() *Board {
 	c := b.Clone()
-	c.Previous = append(c.Previous, b)
-	if b.Player == 1 {
-		c.Player = 2
-	} else {
-		c.Player = 1
-	}
+	//c.Previous = append(c.Previous, b)
+	c.Player = b.Player ^ 3
 	return c
 }
 

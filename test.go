@@ -47,8 +47,7 @@ func rep(queue []*shogi.Board, q *[]*shogi.Board) {
 			}
 			s := c.ToString()
 			mutex.Lock()
-			if d, ok := cache[c.Player][s]; ok {
-				d.Previous = append(d.Previous, b)
+			if _, ok := cache[c.Player][s]; ok {
 				mutex.Unlock()
 				continue
 			}
