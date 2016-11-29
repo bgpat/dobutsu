@@ -5,11 +5,13 @@ import (
 )
 
 type Board struct {
-	Next   map[Movement]*Board
-	Player int
-	Pieces map[Position]*Piece
-	Width  int
-	Height int
+	Next       map[Movement]*Board
+	Player     int
+	Pieces     map[Position]*Piece
+	Width      int
+	Height     int
+	Count      map[string]int
+	Evaluation *Evaluation
 }
 
 func NewBoard(s string, player int) *Board {

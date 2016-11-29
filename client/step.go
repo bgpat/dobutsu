@@ -39,9 +39,8 @@ func (c *Client) Step() error {
 		c.Phase = "board"
 	case "board":
 		res := c.Command("board")
-		for m, b := range c.Board.Next {
+		for _, b := range c.Board.Next {
 			s := b.ToString()
-			log.Println(m.ToString() + "\n" + res + s)
 			if res == s+"\n" {
 				c.Board = b
 				c.Count[s]++
@@ -62,15 +61,24 @@ func (c *Client) Step() error {
 			c.Phase = "turn"
 		}
 	case "move":
-		for m, _ := range c.Board.Next {
-			log.Println(m.ToString())
+		var board *shogi.Board
+		var movement shogi.Movement
+		for m, b := range c.Board.Next {
+			if b.Evaluation == nil {
+				b.Evaluate()
+			}
+			log.Printf("%s: %+v\n", m.ToString(), b.Evaluation)
+			if board == nil || board.Less(b) {
+				board = b
+				movement = m
+			}
 		}
-		for m, _ := range c.Board.Next {
-			c.Command(m.ToString())
-			c.Phase = "turn"
-			return nil
+		if board == nil {
+			c.Phase = ""
+			break
 		}
-		c.Phase = ""
+		c.Command(movement.ToString())
+		c.Phase = "turn"
 	case "initialize":
 		res := c.Command("initboard")
 		c.Board = shogi.NewBoard(res, 1)
