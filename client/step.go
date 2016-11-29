@@ -55,6 +55,10 @@ func (c *Client) Step() error {
 			break
 		}
 		c.Board.GenerateNext()
+		// TODO: rep func
+		for _, b := range c.Board.Next {
+			b.GenerateNext()
+		}
 		if c.Turn == c.Player {
 			c.Phase = "move"
 		} else {
@@ -68,6 +72,9 @@ func (c *Client) Step() error {
 				b.Evaluate()
 			}
 			log.Printf("%s: %+v\n", m.ToString(), b.Evaluation)
+			for mm, bb := range b.Next {
+				log.Printf(" %s: %+v\n", mm.ToString(), bb.Evaluation)
+			}
 			if board == nil || board.Less(b) {
 				board = b
 				movement = m
