@@ -53,7 +53,7 @@ func (p *Piece) NextMovements(b *Board) []Movement {
 			m = m.Invert()
 		}
 		i := p.Position.Add(m)
-		if b.Pieces[i] != nil && b.Pieces[i].Player != p.Player {
+		if i.X < b.Width && b.Pieces[i] != nil && b.Pieces[i].Player != p.Player {
 			r = append(r, Movement{
 				From: p.Position,
 				To:   i,
