@@ -98,6 +98,9 @@ func (b *Board) Catch(p *Piece, player int) {
 		Kind:     p.Kind,
 		Player:   player,
 	}
+	if p.Kind == "h" {
+		b.Pieces[i].Kind = "c"
+	}
 }
 
 func (b *Board) Move(m *Movement) *Board {
