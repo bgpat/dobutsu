@@ -40,9 +40,11 @@ func (c *Client) Step() error {
 	case "board":
 		res := c.Command("board")
 		for m, b := range c.Board.Next {
-			log.Println(m.ToString())
-			if res == b.ToString()+"\n" {
+			s := b.ToString()
+			log.Println(m.ToString() + "\n" + res + s)
+			if res == s+"\n" {
 				c.Board = b
+				c.Count[s]++
 				c.Phase = "update"
 				return nil
 			}
@@ -60,6 +62,9 @@ func (c *Client) Step() error {
 			c.Phase = "turn"
 		}
 	case "move":
+		for m, _ := range c.Board.Next {
+			log.Println(m.ToString())
+		}
 		for m, _ := range c.Board.Next {
 			c.Command(m.ToString())
 			c.Phase = "turn"

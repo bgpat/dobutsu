@@ -17,11 +17,13 @@ type Client struct {
 	Board  *shogi.Board
 	Player int
 	Turn   int
+	Count  map[string]int
 }
 
 func New(host string, port int) (*Client, error) {
 	var c Client
 	err := c.Connect(host, port)
+	c.Count = make(map[string]int)
 	c.Phase = "connected"
 	for err == nil && c.Phase != "" {
 		err = c.Step()
