@@ -225,7 +225,7 @@ func (b *Board) ToString() string {
 		Y: 0,
 	}
 	for i.Y < b.Height {
-		for i.X < b.Width+2 {
+		for i.X < b.Width {
 			if b.Pieces[i] != nil {
 				s += b.Pieces[i].ToString() + ", "
 			}
@@ -233,6 +233,12 @@ func (b *Board) ToString() string {
 		}
 		i.X = 0
 		i.Y++
+	}
+	for _, p := range b.GetHand(1) {
+		s += p.ToString() + ", "
+	}
+	for _, p := range b.GetHand(2) {
+		s += p.ToString() + ", "
 	}
 	return s
 }
