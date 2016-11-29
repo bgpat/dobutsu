@@ -8,11 +8,11 @@ type Evaluation struct {
 }
 
 func (a *Board) Less(b *Board) bool {
-	if b.Evaluation.Result > 0 {
-		return b.Evaluation.Result != b.Player
-	}
 	if a.Evaluation.Result > 0 {
 		return a.Evaluation.Result == a.Player
+	}
+	if b.Evaluation.Result > 0 {
+		return b.Evaluation.Result != b.Player
 	}
 	if a.Evaluation.Loop && !b.Evaluation.Loop {
 		return true
