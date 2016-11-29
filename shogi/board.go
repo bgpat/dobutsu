@@ -5,7 +5,6 @@ import (
 )
 
 type Board struct {
-	//Previous []*Board
 	Next   map[Movement]*Board
 	Player int
 	Pieces map[Position]*Piece
@@ -57,7 +56,6 @@ func (b *Board) Clone() *Board {
 		pieces[p] = q
 	}
 	return &Board{
-		//Previous: make([]*Board, 0),
 		Next:   make(map[Movement]*Board),
 		Player: b.Player,
 		Pieces: pieces,
@@ -68,7 +66,6 @@ func (b *Board) Clone() *Board {
 
 func (b *Board) NextTurn() *Board {
 	c := b.Clone()
-	//c.Previous = append(c.Previous, b)
 	c.Player = b.Player ^ 3
 	return c
 }
