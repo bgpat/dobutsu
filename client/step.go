@@ -40,7 +40,7 @@ func (c *Client) Step() error {
 	case "board":
 		res := c.Command("board")
 		for m, b := range c.Board.Next {
-			log.Printf(" @%s %s\n", m.ToString(), b.ToString())
+			log.Println(m.ToString())
 			if res == b.ToString()+"\n" {
 				c.Board = b
 				c.Phase = "update"
@@ -49,6 +49,10 @@ func (c *Client) Step() error {
 		}
 		return errors.New("fault: " + res)
 	case "update":
+		if c.Board.Result() > 0 {
+			c.Phase = "result"
+			break
+		}
 		c.Board.GenerateNext()
 		if c.Turn == c.Player {
 			c.Phase = "move"
@@ -70,6 +74,9 @@ func (c *Client) Step() error {
 		res := c.Command("board")
 		c.Board = c.Board.Load(res)
 		c.Phase = "turn"
+	case "result":
+		log.Printf("Result: %d\n", c.Board.Result())
+		c.Phase = ""
 	}
 	return nil
 }
