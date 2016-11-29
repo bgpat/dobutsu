@@ -21,7 +21,7 @@ func main() {
 	cache[1][s] = shogi.NewBoard(s, 1)
 	queue := make([]*shogi.Board, 1)
 	queue[0] = cache[1][s]
-	phase := 10
+	phase := 8
 	cpus := runtime.NumCPU()
 	runtime.GOMAXPROCS(cpus)
 	for i := 0; i < phase; i++ {
