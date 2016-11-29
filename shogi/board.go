@@ -145,6 +145,9 @@ func (b *Board) Put(m *Movement) *Board {
 }
 
 func (b *Board) GenerateNext() {
+	if len(b.Next) > 0 {
+		return
+	}
 	b.Next = make(map[Movement]*Board)
 	for _, p := range b.Pieces {
 		if p.Player == b.Player {
