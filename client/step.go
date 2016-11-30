@@ -55,10 +55,6 @@ func (c *Client) Step() error {
 			break
 		}
 		c.Board.GenerateNext()
-		// TODO: rep func
-		for _, b := range c.Board.Next {
-			b.GenerateNext()
-		}
 		if c.Turn == c.Player {
 			c.Phase = "move"
 		} else {
@@ -67,6 +63,8 @@ func (c *Client) Step() error {
 	case "move":
 		var board *shogi.Board
 		var movement shogi.Movement
+		c.Queue = nil
+		c.Generate(5)
 		for m, b := range c.Board.Next {
 			if b.Evaluation == nil {
 				b.Evaluate()
