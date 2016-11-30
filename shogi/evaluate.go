@@ -23,7 +23,7 @@ func (a *Board) Less(b *Board) bool {
 func (b *Board) Evaluate() {
 	result := b.Result()
 	loop := b.IsLoop()
-	if result == 0 && !loop && len(b.Next) > 0 {
+	if result == 0 && !loop && b.Next != nil {
 		var max *Board
 		for _, n := range b.Next {
 			if n.Evaluation == nil {

@@ -148,7 +148,7 @@ func (b *Board) Put(m *Movement) *Board {
 }
 
 func (b *Board) GenerateNext() {
-	if len(b.Next) > 0 {
+	if b.Next != nil {
 		return
 	}
 	b.Next = make(map[Movement]*Board)
