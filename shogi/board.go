@@ -19,7 +19,6 @@ func NewBoard(s string, player int) *Board {
 		Player: player,
 		Width:  0,
 		Height: 0,
-		Count:  make(map[string]int),
 	}
 	b = b.Load(s)
 	for _, p := range b.Pieces {
