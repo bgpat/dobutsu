@@ -18,6 +18,7 @@ type Client struct {
 	Player int
 	Turn   int
 	Count  map[string]int
+	Queue  map[string]*shogi.Board
 }
 
 func New(host string, port int) (*Client, error) {
