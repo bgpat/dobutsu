@@ -9,11 +9,11 @@ import (
 )
 
 func main() {
-	host := os.Getenv("host")
+	host := os.Getenv("HOST")
 	if host == "" {
 		host = "localhost"
 	}
-	port, err := strconv.Atoi(os.Getenv("port"))
+	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
 		port = 4444
 	}
