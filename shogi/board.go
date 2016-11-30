@@ -58,11 +58,11 @@ func (b *Board) Clone() *Board {
 		pieces[p] = q
 	}
 	return &Board{
-		Next:   make(map[Movement]*Board),
 		Player: b.Player,
 		Pieces: pieces,
 		Width:  b.Width,
 		Height: b.Height,
+		Count:  b.Count,
 	}
 }
 
