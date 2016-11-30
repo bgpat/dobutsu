@@ -39,10 +39,11 @@ func (c *Client) Step() error {
 		c.Phase = "board"
 	case "board":
 		res := c.Command("board")
-		for _, b := range c.Board.Next {
+		for m, b := range c.Board.Next {
 			s := b.ToString()
 			if res == s+"\n" {
 				c.Board = b
+				log.Println(m.ToString() + "\n" + b.Log())
 				c.Count[s]++
 				c.Phase = "update"
 				return nil
@@ -68,10 +69,6 @@ func (c *Client) Step() error {
 		for m, b := range c.Board.Next {
 			if b.Evaluation == nil {
 				b.Evaluate()
-			}
-			log.Printf("%s: %+v\n", m.ToString(), b.Evaluation)
-			for mm, bb := range b.Next {
-				log.Printf(" %s: %+v\n", mm.ToString(), bb.Evaluation)
 			}
 			if board == nil || board.Less(b) {
 				board = b
