@@ -65,7 +65,7 @@ func (c *Client) Step() error {
 		var board *shogi.Board
 		var movement shogi.Movement
 		c.Queue = nil
-		c.Generate(5)
+		c.Generate(c.Depth)
 		for m, b := range c.Board.Next {
 			if b.Evaluation == nil {
 				b.Evaluate()
@@ -80,6 +80,7 @@ func (c *Client) Step() error {
 			break
 		}
 		c.Command(movement.ToString())
+		c.Queue = nil
 		c.Phase = "turn"
 	case "initialize":
 		res := c.Command("initboard")

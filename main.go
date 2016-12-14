@@ -17,7 +17,11 @@ func main() {
 	if err != nil {
 		port = 4444
 	}
-	_, err = client.New(host, port)
+	depth, err := strconv.Atoi(os.Getenv("DEPTH"))
+	if err != nil {
+		depth = 6
+	}
+	_, err = client.New(host, port, depth)
 	if err != nil {
 		log.Fatalf("%+v\n", err)
 	}

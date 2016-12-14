@@ -19,11 +19,13 @@ type Client struct {
 	Turn   int
 	Count  map[string]int
 	Queue  map[string]*shogi.Board
+	Depth  int
 }
 
-func New(host string, port int) (*Client, error) {
+func New(host string, port, depth int) (*Client, error) {
 	var c Client
 	err := c.Connect(host, port)
+	c.Depth = depth
 	c.Count = make(map[string]int)
 	c.Phase = "connected"
 	for err == nil && c.Phase != "" {
