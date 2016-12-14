@@ -1,6 +1,7 @@
 package shogi
 
 import (
+	"strconv"
 	"strings"
 )
 
@@ -12,6 +13,7 @@ type Board struct {
 	Height     int
 	Count      map[string]int
 	Evaluation *Evaluation
+	str        string
 }
 
 func NewBoard(s string, player int) *Board {
@@ -172,6 +174,9 @@ func (b *Board) GenerateNext() {
 }
 
 func (b *Board) Result() int {
+	if b.Count != nil && b.Count[b.Hash()] >= 3 {
+		return 3
+	}
 	another := 1
 	if b.Player == 1 {
 		another = 2
@@ -220,6 +225,9 @@ func (b *Board) Tried() int {
 }
 
 func (b *Board) ToString() string {
+	if b.str != "" {
+		return b.str
+	}
 	s := ""
 	i := Position{
 		X: 0,
@@ -241,6 +249,7 @@ func (b *Board) ToString() string {
 	for _, p := range b.GetHand(2) {
 		s += p.ToString() + ", "
 	}
+	b.str = s
 	return s
 }
 
@@ -270,4 +279,19 @@ func (b *Board) Log() string {
 		h2 = append(h2, p.Log())
 	}
 	return strings.Join(h2, ", ") + v + strings.Join(s, v) + v + strings.Join(h1, ", ")
+}
+
+func (b *Board) CountUp() {
+	if b.Count == nil {
+		return
+	}
+	hash := b.Hash()
+	if _, ok := b.Count[hash]; !ok {
+		b.Count[hash] = 0
+	}
+	b.Count[hash]++
+}
+
+func (b *Board) Hash() string {
+	return strconv.Itoa(b.Player) + b.ToString()
 }

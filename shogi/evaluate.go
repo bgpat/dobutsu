@@ -15,7 +15,10 @@ func (a *Board) Less(b *Board) bool {
 		return b.Evaluation.Result != b.Player
 	}
 	if a.Evaluation.Loop && !b.Evaluation.Loop {
-		return true
+		return a.Evaluation.Point >= 0
+	}
+	if !a.Evaluation.Loop && b.Evaluation.Loop {
+		return b.Evaluation.Point < 0
 	}
 	return a.Evaluation.Point < b.Evaluation.Point
 }

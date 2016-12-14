@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -43,11 +44,14 @@ func (c *Client) Step() error {
 			s := b.ToString()
 			if res == s+"\n" {
 				c.Board = b
-				log.Println(m.ToString() + "\n" + b.Log())
-				c.Count[s]++
+				b.CountUp()
+				log.Printf("player: %d, count: %d\n%s\n%s\n", b.Player, b.Count[b.Hash()], m.ToString(), b.Log())
 				c.Phase = "update"
 				return nil
 			}
+		}
+		for m, b := range c.Board.Next {
+			res += fmt.Sprintf("\n%s: %s", m.ToString(), b.ToString())
 		}
 		return errors.New("fault: " + res)
 	case "update":
@@ -85,11 +89,11 @@ func (c *Client) Step() error {
 	case "initialize":
 		res := c.Command("initboard")
 		c.Board = shogi.NewBoard(res, 1)
-		c.Board.Count = c.Count
 		c.Phase = "load"
 	case "load":
 		res := c.Command("board")
 		c.Board = c.Board.Load(res)
+		c.Board.Count = c.Count
 		c.Phase = "turn"
 	case "result":
 		log.Printf("Result: %d\n", c.Board.Result())
