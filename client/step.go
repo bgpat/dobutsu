@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	//"time"
+	"time"
 
 	"github.com/bgpat/dobutsu/shogi"
 )
@@ -30,7 +30,7 @@ func (c *Client) Step() error {
 		c.Turn = player
 		c.Board.Player = c.Turn
 		if turn == c.Turn {
-			//time.Sleep(time.Second)
+			time.Sleep(time.Second)
 			break
 		}
 		if turn == 0 {
