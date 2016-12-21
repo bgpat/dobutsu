@@ -69,10 +69,11 @@ func (c *Client) Step() error {
 		var board *shogi.Board
 		var movement shogi.Movement
 		c.Queue = nil
+		log.Printf("depth: %d\n", c.Depth)
 		c.Generate(c.Depth)
 		for m, b := range c.Board.Next {
 			if b.Evaluation == nil {
-				b.Evaluate()
+				b.Evaluate(c.Depth)
 			}
 			if board == nil || board.Less(b) {
 				board = b
@@ -83,6 +84,7 @@ func (c *Client) Step() error {
 			c.Phase = ""
 			break
 		}
+		log.Printf("evaluation: %+v\n", board.Evaluation)
 		c.Command(movement.ToString())
 		c.Queue = nil
 		c.Phase = "turn"
