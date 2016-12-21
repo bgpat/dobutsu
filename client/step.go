@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"time"
+	//"time"
 
 	"github.com/bgpat/dobutsu/shogi"
 )
@@ -30,7 +30,7 @@ func (c *Client) Step() error {
 		c.Turn = player
 		c.Board.Player = c.Turn
 		if turn == c.Turn {
-			time.Sleep(time.Second)
+			//time.Sleep(time.Second)
 			break
 		}
 		if turn == 0 {
@@ -72,9 +72,9 @@ func (c *Client) Step() error {
 		log.Printf("depth: %d\n", c.Depth)
 		c.Generate(c.Depth)
 		for m, b := range c.Board.Next {
-			if b.Evaluation == nil {
-				b.Evaluate(c.Depth)
-			}
+			//if b.Evaluation == nil {
+			b.Evaluate(c.Depth)
+			//}
 			if board == nil || board.Less(b) {
 				board = b
 				movement = m
@@ -88,6 +88,11 @@ func (c *Client) Step() error {
 		c.Command(movement.ToString())
 		c.Queue = nil
 		c.Phase = "turn"
+		/* update board */
+		c.Turn = c.Player ^ 3
+		c.Board = board
+		c.Board.CountUp()
+		/* ---- */
 	case "initialize":
 		res := c.Command("initboard")
 		c.Board = shogi.NewBoard(res, 1)

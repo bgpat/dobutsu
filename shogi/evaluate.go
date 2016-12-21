@@ -26,7 +26,10 @@ func (a *Board) Less(b *Board) bool {
 func (b *Board) Evaluate(depth int) {
 	result := b.Result()
 	loop := b.IsLoop()
-	if result == 0 && !loop && b.Next != nil {
+	if result == 0 && !loop && depth > 0 {
+		if b.Next != nil {
+			b.GenerateNext()
+		}
 		var max *Board
 		for _, n := range b.Next {
 			if n.Evaluation == nil || n.Evaluation.Depth < depth {
@@ -37,13 +40,15 @@ func (b *Board) Evaluate(depth int) {
 				max = n
 			}
 		}
-		b.Evaluation = &Evaluation{
-			Result: max.Evaluation.Result,
-			Loop:   max.Evaluation.Loop,
-			Point:  -max.Evaluation.Point,
-			Depth:  max.Evaluation.Depth + 1,
+		if max != nil {
+			b.Evaluation = &Evaluation{
+				Result: max.Evaluation.Result,
+				Loop:   max.Evaluation.Loop,
+				Point:  -max.Evaluation.Point,
+				Depth:  max.Evaluation.Depth + 1,
+			}
+			return
 		}
-		return
 	}
 	b.Evaluation = &Evaluation{
 		Result: result,
