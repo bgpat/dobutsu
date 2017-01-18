@@ -33,7 +33,6 @@ func (b *Board) Evaluate(depth int) {
 		var max *Board
 		for _, n := range b.Next {
 			if n.Evaluation == nil || n.Evaluation.Depth < depth {
-				//if n.Evaluation == nil {
 				n.Evaluate(depth - 1)
 			}
 			if max == nil || max.Less(n) {
