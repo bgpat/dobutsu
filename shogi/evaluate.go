@@ -7,6 +7,10 @@ type Evaluation struct {
 	Depth  int
 }
 
+func NewEvaluation() *Evaluation {
+	return &Evaluation{}
+}
+
 func (a *Board) Less(b *Board) bool {
 	if a.Evaluation.Result > 0 {
 		return a.Evaluation.Result == a.Player
@@ -33,7 +37,6 @@ func (b *Board) Evaluate(depth int) {
 		var max *Board
 		for _, n := range b.Next {
 			if n.Evaluation == nil || n.Evaluation.Depth < depth {
-				//if n.Evaluation == nil {
 				n.Evaluate(depth - 1)
 			}
 			if max == nil || max.Less(n) {
@@ -55,6 +58,12 @@ func (b *Board) Evaluate(depth int) {
 		Loop:   loop,
 		Point:  b.EvalPoint(),
 		Depth:  0,
+	}
+}
+
+func (b *Board) EvaluateAlphaBeta(depth int, alpha, beta *Evaluation) {
+	if alpha == nil {
+		alpha = NewEvaluation()
 	}
 }
 
